@@ -14,17 +14,36 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+
+    - name: Install Prerequisites
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+
+    - name: Add OpenTofu GPG Key
+      run: |
+        sudo install -m 0755 -d /etc/apt/keyrings
+        curl -fsSL https://get.opentofu.org/opentofu.gpg | sudo tee /etc/apt/keyrings/opentofu.gpg >/dev/null
+        curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | sudo gpg --no-tty --batch --dearmor -o /etc/apt/keyrings/opentofu-repo.gpg >/dev/null
+        sudo chmod a+r /etc/apt/keyrings/opentofu.gpg /etc/apt/keyrings/opentofu-repo.gpg
+
+    - name: Add OpenTofu Repository
+      run: |
+        echo "deb [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
+        sudo tee /etc/apt/sources.list.d/opentofu.list > /dev/null
+        echo "deb-src [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
+        sudo tee -a /etc/apt/sources.list.d/opentofu.list > /dev/null
+        sudo chmod a+r /etc/apt/sources.list.d/opentofu.list
 
     - name: Install OpenTofu
       run: |
-        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_linux_amd64.zip
-        unzip tofu_1.9.1_linux_amd64.zip
-        sudo mv tofu /usr/local/bin/
-        rm tofu_1.9.1_linux_amd64.zip
+        sudo apt-get update
+        sudo apt-get install -y tofu
+        tofu --version # Verify installation
 
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -36,4 +55,3 @@ jobs:
     - name: OpenTofu Plan
       run: tofu plan
       if: github.event_name == 'pull_request'
-
