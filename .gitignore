@@ -1,0 +1,15 @@
+# Credentials
+credentials/*
+!credentials/.gitkeep
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!example.tfvars
+.terraform.lock.hcl
+
+# GitHub
+.github/workflows/*.yml
+!.github/workflows/terraform.yml 

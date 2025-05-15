@@ -1,0 +1,32 @@
+apiVersion: pipecd.dev/v1beta1
+kind: TerraformApp
+spec:
+  name: aws-opentofu-app
+  labels:
+    env: dev
+    team: devops
+  input:
+    terraformVersion: 1.5.6
+    backend:
+      type: s3
+      config:
+        bucket: "tofu-example-state"
+        key: "terraform.tfstate"
+        region: "us-east-1"
+        encrypt: true
+        dynamodb_table: "tofu-example-locks"
+    variables:
+      aws_region: "us-east-1"
+      bucket_name: "tofu-example-bucket-123"
+      environment: "dev"
+  encryption:
+    encryptedSecrets:
+      awsAccessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      awsSecretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    decryptionTargets:
+      - "credentials/aws"
+  description: |
+    AWS OpenTofu application for infrastructure deployment.
+    Uses S3 backend with DynamoDB for state locking.
+    Implements AWS credentials via GitHub Secrets.
+    Deployment strategy is Quick Sync with automatic plan and apply. 
