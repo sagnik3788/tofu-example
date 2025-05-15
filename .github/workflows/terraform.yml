@@ -18,9 +18,9 @@ jobs:
 
     - name: Install OpenTofu
       run: |
-        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_386.deb
-        sudo dpkg -i tofu_1.9.1_386.deb
-        rm tofu_1.9.1_386.deb
+        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_amd64.deb
+        sudo dpkg -i tofu_1.9.1_amd64.deb
+        rm tofu_1.9.1_amd64.deb
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
