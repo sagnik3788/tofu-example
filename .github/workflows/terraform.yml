@@ -16,11 +16,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Download OpenTofu .deb Package
+    - name: Debug System Architecture
+      run: |
+        echo "System architecture:"
+        dpkg --print-architecture
+        uname -m
+
+    - name: Download OpenTofu amd64 .deb Package
       run: |
         wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_amd64.deb
         wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_SHA256SUMS
-        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_SHA256SUMS.sig
+        ls -lh # List downloaded files for verification
 
     - name: Verify Checksum
       run: |
@@ -30,12 +36,12 @@ jobs:
       run: |
         sudo dpkg -i tofu_1.9.1_amd64.deb
         tofu --version
-        rm tofu_1.9.1_amd64.deb tofu_1.9.1_SHA256SUMS tofu_1.9.1_SHA256SUMS.sig
+        rm tofu_1.9.1_amd64.deb tofu_1.9.1_SHA256SUMS
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESSuisine_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
