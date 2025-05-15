@@ -26,7 +26,4 @@ spec:
     decryptionTargets:
       - "credentials/aws"
   description: |
-    AWS OpenTofu application for infrastructure deployment.
-    Uses S3 backend with DynamoDB for state locking.
-    Implements AWS credentials via GitHub Secrets.
-    Deployment strategy is Quick Sync with automatic plan and apply. 
+    OpenTofu application for infrastructure deployment.
