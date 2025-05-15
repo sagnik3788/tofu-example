@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'OpenTofu CI'
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  validate:
+    name: 'Validate OpenTofu'
     runs-on: ubuntu-latest
     environment: production
 
@@ -16,10 +16,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup OpenTofu
-      uses: opentofu/setup-opentofu@v1
-      with:
-        tofu_version: 1.5.6
+    - name: Install OpenTofu
+      run: |
+        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_386.deb
+        sudo dpkg -i tofu_1.9.1_386.deb
+        rm tofu_1.9.1_386.deb
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -28,13 +29,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Terraform Init
+    - name: OpenTofu Init
       run: tofu init
 
-    - name: Terraform Plan
+    - name: OpenTofu Plan
       run: tofu plan
       if: github.event_name == 'pull_request'
 
-    - name: Terraform Apply
-      run: tofu apply -auto-approve
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
