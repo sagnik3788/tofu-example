@@ -16,31 +16,21 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Install Prerequisites
+    - name: Download OpenTofu .deb Package
       run: |
-        sudo apt-get update
-        sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_amd64.deb
+        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_SHA256SUMS
+        wget https://github.com/opentofu/opentofu/releases/download/v1.9.1/tofu_1.9.1_SHA256SUMS.sig
 
-    - name: Add OpenTofu GPG Key
+    - name: Verify Checksum
       run: |
-        sudo install -m 0755 -d /etc/apt/keyrings
-        curl -fsSL https://get.opentofu.org/opentofu.gpg | sudo tee /etc/apt/keyrings/opentofu.gpg >/dev/null
-        curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | sudo gpg --no-tty --batch --dearmor -o /etc/apt/keyrings/opentofu-repo.gpg >/dev/null
-        sudo chmod a+r /etc/apt/keyrings/opentofu.gpg /etc/apt/keyrings/opentofu-repo.gpg
-
-    - name: Add OpenTofu Repository
-      run: |
-        echo "deb [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
-        sudo tee /etc/apt/sources.list.d/opentofu.list > /dev/null
-        echo "deb-src [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
-        sudo tee -a /etc/apt/sources.list.d/opentofu.list > /dev/null
-        sudo chmod a+r /etc/apt/sources.list.d/opentofu.list
+        sha256sum -c --ignore-missing tofu_1.9.1_SHA256SUMS | grep tofu_1.9.1_amd64.deb
 
     - name: Install OpenTofu
       run: |
-        sudo apt-get update
-        sudo apt-get install -y tofu
-        tofu --version # Verify installation
+        sudo dpkg -i tofu_1.9.1_amd64.deb
+        tofu --version
+        rm tofu_1.9.1_amd64.deb tofu_1.9.1_SHA256SUMS tofu_1.9.1_SHA256SUMS.sig
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
