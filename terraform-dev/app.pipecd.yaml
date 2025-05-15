@@ -5,8 +5,13 @@ spec:
   labels:
     env: dev
     team: devops
+  git:
+    repoID: tofu-example
+    path: terraform-dev           # ✅ Must match folder name where this file lives
+    branch: main
   input:
-    terraformVersion: 1.5.6
+    terraformVersion: 1.9.1
+    tfCommand: "apply"            # ✅ Required: what action to perform
     backend:
       type: s3
       config:
