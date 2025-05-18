@@ -5,6 +5,7 @@ spec:
   labels:
     env: dev
     team: devops
+    platform: aws 
   git:
     repoID: tofu-example
     path: terraform-dev           # ✅ Must match folder name where this file lives
