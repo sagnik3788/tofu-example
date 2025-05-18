@@ -1,5 +1,6 @@
 apiVersion: pipecd.dev/v1beta1
-kind: TerraformApp
+#kind: TerraformApp
+kind: KUBERNETES1234
 spec:
   name: aws-opentofu-app
   labels:
