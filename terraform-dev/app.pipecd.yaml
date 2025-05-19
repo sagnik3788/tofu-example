@@ -8,11 +8,11 @@ spec:
     platform: aws 
   git:
     repoID: tofu-example
-    path: terraform-dev           # ✅ Must match folder name where this file lives
+    path: terraform-dev           
     branch: main
   input:
     terraformVersion: 1.9.1
-    tfCommand: "apply"            # ✅ Required: what action to perform
+    tfCommand: "apply"          
     backend:
       type: s3
       config:
