@@ -13,20 +13,14 @@ spec:
   plugins:
     opentofu:
       input:
-        terraformVersion: 1.9.1
-        tfCommand: "apply"          
-        backend:
-          type: s3
-          config:
-            bucket: "tofu-example-state"
-            key: "terraform.tfstate"
-            region: "us-east-1"
-            encrypt: true
-            dynamodb_table: "tofu-example-locks"
-        variables:
-          aws_region: "us-east-1"
-          bucket_name: "tofu-example-bucket-123"
-          environment: "dev"
+        version: "1.9.1"
+        config: "main.tf"         # The main .tf file (adjust if needed)
+        workingDir: "."           # Or "terraform-dev" if that's your working dir
+        env:
+          - TF_VAR_aws_region=us-east-1
+          - TF_VAR_bucket_name=tofu-example-bucket-123
+          - TF_VAR_environment=dev
+        init: true
   encryption:
     encryptedSecrets:
       awsAccessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
