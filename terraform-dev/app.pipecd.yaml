@@ -21,8 +21,6 @@ spec:
           - TF_VAR_bucket_name=tofu-example-bucket-123
           - TF_VAR_environment=dev
         init: true
-      quickSync:
-        autoApprove: true
   encryption:
     encryptedSecrets:
       awsAccessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
