@@ -1,6 +1,5 @@
 apiVersion: pipecd.dev/v1beta1
-#kind: TerraformApp
-Kind: Application
+kind: Application
 spec:
   name: aws-opentofu-app
   labels:
@@ -11,21 +10,23 @@ spec:
     repoID: tofu-example
     path: terraform-dev           
     branch: main
-  input:
-    terraformVersion: 1.9.1
-    tfCommand: "apply"          
-    backend:
-      type: s3
-      config:
-        bucket: "tofu-example-state"
-        key: "terraform.tfstate"
-        region: "us-east-1"
-        encrypt: true
-        dynamodb_table: "tofu-example-locks"
-    variables:
-      aws_region: "us-east-1"
-      bucket_name: "tofu-example-bucket-123"
-      environment: "dev"
+  plugins:
+    opentofu:
+      input:
+        terraformVersion: 1.9.1
+        tfCommand: "apply"          
+        backend:
+          type: s3
+          config:
+            bucket: "tofu-example-state"
+            key: "terraform.tfstate"
+            region: "us-east-1"
+            encrypt: true
+            dynamodb_table: "tofu-example-locks"
+        variables:
+          aws_region: "us-east-1"
+          bucket_name: "tofu-example-bucket-123"
+          environment: "dev"
   encryption:
     encryptedSecrets:
       awsAccessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
