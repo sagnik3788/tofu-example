@@ -10,6 +10,7 @@ spec:
     repoID: tofu-example
     path: terraform-dev
     branch: main
+  kind: PLUGIN 
   plugins:
     opentofu:
       input:
