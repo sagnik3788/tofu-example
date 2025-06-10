@@ -1,25 +1,22 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
-resource "aws_s3_bucket" "example" {
-  bucket = "tofu-example-bucket-123"
-
-  tags = {
-    Name        = "Example bucket"
-    Environment = "dev"
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    random = {
+      source  = "hashicorp/random"
+      version = "3.5.1"
+    }
   }
 }
 
-resource "aws_s3_bucket_ownership_controls" "example" {
-  bucket = aws_s3_bucket.example.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
+provider "random" {}
+
+resource "random_string" "test" {
+  length  = 8
+  special = false
 }
 
-resource "aws_s3_bucket_acl" "example" {
-  depends_on = [aws_s3_bucket_ownership_controls.example]
-  bucket = aws_s3_bucket.example.id
-  acl    = "private"
-} 
+resource "null_resource" "test" {}
+ 
+variable "environment" {
+  type = string
+}  
