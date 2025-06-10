@@ -37,5 +37,4 @@ spec:
       awsSecretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     decryptionTargets:
       - "credentials/aws"
-  description: |
-    OpenTofu application for infrastructure deployment.
+  description: "OpenTofu application for infrastructure deployment."
