@@ -1,0 +1,34 @@
+apiVersion: pipecd.dev/v1beta1
+kind: Application
+spec:
+  name: aws-opentofu-app
+  labels:
+    env: dev
+    team: devops
+    platform: aws
+  git:
+    repoID: tofu-example
+    path: terraform-dev
+    branch: main
+  kind: PLUGIN
+  plugins:
+    opentofu:
+      input:
+        version: "1.9.1"
+        config: "main.tf"
+        workingDir: "."
+        env:
+          - TF_VAR_aws_region=us-east-1
+          - TF_VAR_bucket_name=tofu-example-bucket-123
+          - TF_VAR_environment=dev
+        init: true
+      quickSync:
+        autoApprove: true
+  encryption:
+    encryptedSecrets:
+      awsAccessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      awsSecretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    decryptionTargets:
+      - "credentials/aws"
+  description: |
+    OpenTofu application for infrastructure deployment.
