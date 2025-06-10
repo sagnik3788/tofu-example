@@ -14,19 +14,28 @@ spec:
   plugins:
     opentofu:
       input:
+        # Version of OpenTofu to use
         version: "1.9.1"
-        config: "main.tf"
+        # List of OpenTofu configuration files
+        configs:
+          - main.tf
+        # Working directory for OpenTofu commands
         workingDir: "."
+        # Environment variables for OpenTofu
         env:
           - TF_VAR_aws_region=us-east-1
           - TF_VAR_bucket_name=tofu-example-bucket-123
           - TF_VAR_environment=dev
+        # Automatically run terraform init
         init: true
+      # Configuration for quick sync
       quickSync:
         autoApprove: true
+      # Which resources should be considered as the main resources
       resources:
         - type: aws_s3_bucket
           name: example
+      # The label will be configured to variant manifests
       variantLabel:
         key: environment
         value: dev
