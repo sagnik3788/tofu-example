@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "example" {
-  bucket = "tofu-bucket-test"
+  bucket = "tofu-bucket-test-18367472829328382"
 
   tags = {
     Name        = "Example bucket"
