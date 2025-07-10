@@ -2,11 +2,6 @@ apiVersion: pipecd.dev/v1beta1
 kind: Application
 spec:
   name: aws-opentofu-app
-  git:
-    repoID: tofu-example
-    path: terraform-dev 
-    branch: main
-  kind: PLUGIN
   plugins:
     opentofu:
       input:
