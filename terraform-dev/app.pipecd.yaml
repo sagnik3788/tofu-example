@@ -8,12 +8,13 @@ spec:
       openTofuVersion: "1.9.1"
       workspace: default
       vars:
-        - TF_VAR_aws_region=us-east-1
-        - TF_VAR_bucket_name=tofu-example-bucket-123
-        - TF_VAR_environment=dev
-      varFiles:
-        - main.tf
+        - aws_region=us-east-1
+        - bucket_name=tofu-example-bucket-123
+        - environment=dev
       commandFlags:
+        plan:
+          - "-no-color"
+          - "-input=false"
         apply:
           - "-auto-approve"
       commandEnvs:
