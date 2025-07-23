@@ -24,6 +24,7 @@ spec:
   pipeline:
     stages:
       - name: OPENTOFU_PLAN
+        with: {}
       - name: OPENTOFU_APPLY
 
   planner:
