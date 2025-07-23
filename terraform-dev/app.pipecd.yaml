@@ -18,7 +18,4 @@
          commandEnvs:
            shared:
              - AWS_PROFILE=dev
-     pipeline:
-       stages:
-         - name: OPENTOFU_PLAN
-         - name: OPENTOFU_APPLY
+
