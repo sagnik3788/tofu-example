@@ -1,31 +1,24 @@
 apiVersion: pipecd.dev/v1beta1
 kind: Application
 spec:
-  name: aws-opentofu-app
+  name: opentofu-demo-app
 
   plugins:
     opentofu:
       openTofuVersion: "1.9.1"
-      workspace: default
-      vars:
-        - aws_region=us-east-1
-        - bucket_name=tofu-example-bucket-123
-        - environment=dev
+      workspace: default         
       commandFlags:
         plan:
           - "-no-color"
           - "-input=false"
         apply:
           - "-auto-approve"
-      commandEnvs:
-        shared:
-          - AWS_PROFILE=dev
 
   pipeline:
     stages:
       - name: OPENTOFU_PLAN
-        with: {}
+        with: {}                  
       - name: OPENTOFU_APPLY
 
   planner:
-    alwaysUsePipeline: true
+    alwaysUsePipeline: true        
