@@ -18,7 +18,7 @@ spec:
     stages:
       - name: OPENTOFU_PLAN
         with: {}                  
-      - name: OPENTOFU_APPLY
+      # - name: OPENTOFU_APPLY
 
   planner:
     alwaysUsePipeline: true        
