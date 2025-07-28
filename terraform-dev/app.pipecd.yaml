@@ -5,14 +5,14 @@ spec:
 
   plugins:
     opentofu:
-      - name: opentofu
-        with:
-          openTofuVersion: "1.9.1"
-          workspace: default         
-          commandFlags:
-            plan:
-              - "-no-color"
-              - "-input=false"
+      openTofuVersion: "1.9.1"
+      workspace: default         
+      commandFlags:
+        plan:
+          - "-no-color"
+          - "-input=false"
+        apply:
+          - "-auto-approve"
 
   pipeline:
     stages:
