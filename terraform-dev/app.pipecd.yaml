@@ -5,20 +5,20 @@ spec:
 
   plugins:
     opentofu:
-      openTofuVersion: "1.9.1"
-      workspace: default         
-      commandFlags:
-        plan:
-          - "-no-color"
-          - "-input=false"
-        apply:
-          - "-auto-approve"
+      - name: opentofu
+        with:
+          openTofuVersion: "1.9.1"
+          workspace: default         
+          commandFlags:
+            plan:
+              - "-no-color"
+              - "-input=false"
 
   pipeline:
     stages:
       - name: OPENTOFU_PLAN
-        with: {}                  
-      # - name: OPENTOFU_APPLY
+        with:
+          exitOnNoChanges: true
 
   planner:
-    alwaysUsePipeline: true        
+    alwaysUsePipeline: true
