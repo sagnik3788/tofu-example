@@ -18,7 +18,10 @@ spec:
     stages:
       - name: OPENTOFU_PLAN
         with:
-          exitOnNoChanges: true
+          exitOnNoChanges: false
+      - name: OPENTOFU_APPLY
+        with:
+          autoApprove: true
 
   planner:
     alwaysUsePipeline: true
