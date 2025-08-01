@@ -1,55 +1,36 @@
 terraform {
   required_providers {
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.2"
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.5"
     }
     null = {
       source  = "hashicorp/null"
-      version = "~> 3.2"
-    }
-    time = {
-      source  = "hashicorp/time"
-      version = "~> 0.9"
-    }
-    external = {
-      source  = "hashicorp/external"
-      version = "~> 2.1"
+      version = "~> 3.0"
     }
   }
 }
 
-resource "null_resource" "setup_environment" {
-  provisioner "local-exec" {
-    command = "echo Setting up environment... > setup.log"
-  }
+resource "random_pet" "name" {
+  length = 2
 }
 
-resource "time_sleep" "wait_for_boot" {
-  depends_on = [null_resource.setup_environment]
-  create_duration = "5s"
+resource "random_integer" "rand" {
+  min = 1
+  max = 100
 }
 
-resource "local_file" "config_file" {
-  depends_on = [time_sleep.wait_for_boot]
-
-  content  = "app_config=active\n"
-  filename = "${path.module}/app_config.txt"
-}
-
-resource "external" "fake_status_check" {
-  depends_on = [local_file.config_file]
-
-  program = ["bash", "-c", "echo '{\"status\": \"ok\"}'"]
-}
-
-resource "null_resource" "final_step" {
+resource "null_resource" "demo" {
   triggers = {
-    config_hash = filesha256(local_file.config_file.filename)
-    status = external.fake_status_check.result["status"]
+    generated_name = random_pet.name.id
+    random_number  = random_integer.rand.result
   }
 
   provisioner "local-exec" {
-    command = "echo Final step triggered with config and external status."
+    command = "echo Generated pet name: ${random_pet.name.id} with number ${random_integer.rand.result}"
   }
+}
+
+output "final_output" {
+  value = "Pet: ${random_pet.name.id}, Number: ${random_integer.rand.result}"
 }
