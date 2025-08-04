@@ -4,45 +4,26 @@ terraform {
       source  = "hashicorp/random"
       version = "~> 3.5"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "~> 3.0"
-    }
   }
 }
 
-# to test DetermineVersions 
-module "web_server" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "5.0.0"
-  
-  instance_type = "t3.micro"
-  name          = "web-server"
+# Simple modules for testing DetermineVersions
+module "test_module_1" {
+  source  = "hashicorp/random"
+  version = "3.5.0"
 }
 
-module "database" {
-  source  = "terraform-aws-modules/rds/aws"
-  version = "6.0.0"
-  
-  identifier = "my-db"
-  engine     = "mysql"
+module "test_module_2" {
+  source  = "hashicorp/random"
+  version = "3.6.0"
 }
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "5.0.0"
-  
-  name = "my-vpc"
-  cidr = "10.0.0.0/16"
+module "test_module_3" {
+  source  = "hashicorp/random"
+  version = "3.7.0"
 }
 
-# resources
+# Simple resource
 resource "random_pet" "name" {
   length = 4
-}
-
-resource "null_resource" "demo" {
-  triggers = {
-    generated_name = random_pet.name.id
-  }
 }
