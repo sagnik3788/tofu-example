@@ -11,11 +11,11 @@ terraform {
   }
 }
 
-# Real registry modules that actually exist
+# ✅ Valid registry module
 module "label_module" {
   source  = "cloudposse/label/null"
   version = "0.25.0"
-  
+
   context = {
     namespace   = "example"
     environment = "dev"
@@ -27,21 +27,12 @@ module "label_module" {
   }
 }
 
-module "docker_container" {
-  source  = "kreuzwerker/docker"
-  version = "3.0.0"
-}
-
-module "random_pet" {
-  source  = "hashicorp/random"
-  version = "3.5.0"
-}
-
-# Your existing resources
+# ✅ Valid random_pet resource
 resource "random_pet" "name" {
   length = 4
 }
 
+# ✅ Valid null resource
 resource "null_resource" "demo" {
   triggers = {
     generated_name = random_pet.name.id
