@@ -11,28 +11,33 @@ terraform {
   }
 }
 
-# ✅ Valid registry module
+# ✅ Valid module from the registry with full context
 module "label_module" {
   source  = "cloudposse/label/null"
   version = "0.25.0"
 
   context = {
-    namespace   = "example"
-    environment = "dev"
-    stage       = "test"
-    name        = "app"
-    attributes  = ["web"]
-    delimiter   = "-"
-    enabled     = true
+    namespace             = "example"
+    environment           = "dev"
+    stage                 = "test"
+    name                  = "app"
+    attributes            = ["web"]
+    delimiter             = "-"
+    enabled               = true
+    tags                  = {}
+    additional_tag_map    = {}
+    label_order           = []
+    regex_replace_chars   = "/[^a-zA-Z0-9]/"
+    id_length_limit       = null
   }
 }
 
-# ✅ Valid random_pet resource
+# ✅ Random pet generator
 resource "random_pet" "name" {
   length = 4
 }
 
-# ✅ Valid null resource
+# ✅ Triggers on random pet output
 resource "null_resource" "demo" {
   triggers = {
     generated_name = random_pet.name.id
