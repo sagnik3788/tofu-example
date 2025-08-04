@@ -11,8 +11,8 @@ spec:
         plan:
           - "-no-color"
           - "-input=false"
-        apply:
-          - "-auto-approve"
+        # apply:
+        #   - "-auto-approve"
 
   pipeline:
     stages:
