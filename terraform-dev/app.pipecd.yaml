@@ -18,7 +18,7 @@ spec:
     stages:
       - name: OPENTOFU_PLAN
         with:
-          exitOnNoChanges: false
+          exitOnNoChanges: true
       # - name: OPENTOFU_APPLY
       #   with:
       #     autoApprove: true
