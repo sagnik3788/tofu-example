@@ -20,9 +20,8 @@ spec:
         with:
           exitOnNoChanges: true
       - name: OPENTOFU_APPLY
-        # with:
-        #   autoApprove: true
-      - name: ANALYSIS
+
+      - name: OPENTOFU_APPLY
 
   planner:
     alwaysUsePipeline: true
