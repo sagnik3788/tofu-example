@@ -19,7 +19,6 @@ spec:
       - name: OPENTOFU_PLAN
         with:
           exitOnNoChanges: true
-      - name: WAIT_APPROVAL 
       - name: OPENTOFU_APPLY
         # with:
         #   autoApprove: true
