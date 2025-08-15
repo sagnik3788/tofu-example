@@ -21,7 +21,7 @@ spec:
           exitOnNoChanges: true
       - name: OPENTOFU_APPLY
 
-      - name: OPENTOFU_APPLY
+      - name: OPENTOFU_ROLLBACK
 
   planner:
     alwaysUsePipeline: true
